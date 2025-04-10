@@ -6,6 +6,8 @@ set(SRC
     EventLoopThread.cpp
     EventLoopThreadPool.cpp
     Util.cpp
+    HttpData.cpp
+    Server.cpp
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/base)
@@ -19,3 +21,5 @@ add_subdirectory(ThreadTest)
 add_subdirectory(EventLoopTest)
 add_subdirectory(EventLoopThreadTest)
 add_subdirectory(EventLoopThreadPoolTest)
+add_subdirectory(ChatClient)
+add_subdirectory(ChatServer)

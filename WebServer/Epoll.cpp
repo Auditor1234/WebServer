@@ -62,8 +62,8 @@ void Epoll::epollDel(SP_Channel request) {
 vector<SP_Channel> Epoll::poll() {
     while(true) {
         int event_count = epoll_wait(epollFd_, &*events_.begin(), events_.size(), EPOLLWAIT_TIME);
-        if(event_count < 0)
-            perror("epoll_wait error");
+        // if(event_count < 0)
+        //     perror("epoll_wait error");
         vector<SP_Channel> req_data = getEventsRequest(event_count);
         if(req_data.size() > 0)
             return req_data;

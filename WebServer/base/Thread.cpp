@@ -81,7 +81,6 @@ void Thread::start() {
         sleep(1); // 保证新线程执行完毕获得tid_的值
         cout << "tid_ = " << tid_ << endl; // 这里是创建的新线程的id
         cout << "My tid = " << syscall(SYS_gettid) << endl; // 这里是主线程的id
-        cout << "pthreadId_ = " << pthreadId_ << endl; // 这个值不是线程id
         assert(tid_ > 0);
     }
 }

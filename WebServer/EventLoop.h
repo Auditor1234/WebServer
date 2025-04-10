@@ -27,7 +27,7 @@ public:
     void updatePoller(SP_Channel channel, int timeout = 0) {
         poller_->epollMod(channel, timeout);
     }
-    void adddToPoller(SP_Channel channel, int timeout = 0) {
+    void addToPoller(SP_Channel channel, int timeout = 0) {
         poller_->epollAdd(channel, timeout);
     }
 

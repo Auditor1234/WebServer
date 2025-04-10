@@ -12,12 +12,12 @@ void printHello() {
 }
 
 int main(int argc, char* argv[]) {
-    EventLoopThread event_loop_thread;
-    EventLoop* event_loop = event_loop_thread.startLoop();
+    EventLoopThread eventLoopThread;
+    EventLoop* eventLoop = eventLoopThread.startLoop();
     // 这个地方不能用智能指针，具体原因不明
-    // shared_ptr<EventLoop> event_loop(event_loop_thread.startLoop());
+    // shared_ptr<EventLoop> eventLoop(eventLoopThread.startLoop());
     for(int i = 0; i < 30; i++) {
-        event_loop->queueInLoop(bind(&printHello));
+        eventLoop->queueInLoop(bind(&printHello));
     }
     return 0;
 }

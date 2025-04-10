@@ -10,10 +10,10 @@ class Channel {
 private:
     using CallBack = std::function<void()>;
     EventLoop* loop_;
-    int fd_;
-    __uint32_t events_;
-    __uint32_t revents_;
-    __uint32_t last_events_;
+    int fd_; // Channel管理的fd
+    __uint32_t events_; // 保存了fd上感兴趣的IO事件
+    __uint32_t revents_; // 目前fd上就绪的事件
+    __uint32_t last_events_; // 上次注册的事件
 
     std::weak_ptr<HttpData> holder_;
 
@@ -59,6 +59,9 @@ public:
         }
         if(revents_ & (EPOLLIN | EPOLLPRI | EPOLLRDHUP)) {
             handleRead();
+        }
+        if(revents_ & EPOLLOUT) {
+            handleWrite();
         }
         handleConn();
     }

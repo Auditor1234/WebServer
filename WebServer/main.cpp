@@ -3,6 +3,7 @@
 #include <functional>
 #include "base/Thread.h"
 #include "EventLoopThreadPool.h"
+#include "Server.h"
 
 using namespace std;
 
@@ -11,14 +12,13 @@ void printHello() {
 }
 
 int main(int argc, char* argv[]) {
-    EventLoop base_loop;
-    EventLoopThreadPool eventLoopThreadPool(&base_loop, 4);
-    eventLoopThreadPool.start();
-    for(int i = 0; i < 400; i++) {
-        EventLoop* next_loop = eventLoopThreadPool.getNextLoop();
-        next_loop->queueInLoop(bind(&printHello));
-    }
-    cout << "loop start." << endl;
-    base_loop.loop();
+    int thread_num = 4;
+    int port = 8888;
+    
+    EventLoop main_loop;
+    Server http_server(&main_loop, thread_num, port);
+    http_server.start();
+    main_loop.loop();
+
     return 0;
 }

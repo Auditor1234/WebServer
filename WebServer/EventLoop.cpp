@@ -41,6 +41,7 @@ EventLoop::EventLoop() :
 EventLoop::~EventLoop() {
     close(wakeupFd_);
     t_loop_in_this_thread = nullptr;
+    cout << "~EventLoop = " << gettid() << endl;
 }
 
 void EventLoop::wakeup() {
@@ -52,6 +53,7 @@ void EventLoop::wakeup() {
 }
 
 void EventLoop::handleConn() {
+    cout << "handleConn()" << gettid() << endl;
     updatePoller(pwakeup_Channel_, 0);
 }
 
@@ -66,6 +68,7 @@ void EventLoop::handleRead() {
 
 void EventLoop::runInLoop(Functor&& cb) {
     if(isInLoopThread()) {
+        cout << "isInLoopThread tid = " << gettid() << endl;
         cb();
     }else {
         queueInLoop(std::move(cb));
@@ -96,6 +99,7 @@ void EventLoop::loop() {
         ret.clear();
         ret = poller_->poll();
         event_handling_ = true;
+        cout << "EventLoop ret.size() = " << ret.size() << ", tid = " << gettid() << endl;
         for(auto& it : ret)
             it->handleEvents();
         event_handling_ = false;
@@ -115,6 +119,8 @@ void EventLoop::doPendingFunctors() {
     }
     for(size_t i = 0; i < functors.size(); i++)
         functors[i]();
+    cout << "functors.size() = " << functors.size() << ", tid = " << gettid() << endl;
+    cout << "------------------------" << endl;
     calling_pending_Functors_ = false;
 }
 
